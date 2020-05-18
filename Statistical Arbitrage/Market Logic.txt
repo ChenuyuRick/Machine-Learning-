@@ -1,0 +1,37 @@
+Market Status
+	1) Market open time = 50, Open
+	2) Market pending close time = 10, Pending Closing
+	3) Market close time = 10, Market Closed
+
+Total Market Days = 30 
+	The latest 30 trading days
+
+Daily Order Book - Historical Daily Market Data
+	Number of orders = (high_price - low_price)/price scale, price_scale is either 0.05 or 5 based stock price >= 1000 or not
+	buy_price = open_price - price_scale * rand()
+	sell_price = open_price + price_scale * rand()
+	quantity = randomized, but sum of all the orders = daily volume
+	The book interested are populated before market open
+	
+Intraday Market Interests - Daily Intraday Market Data
+	Buy interests: Evey 5 min low price, high of the volumn * rand()
+	Sell interests: Evey 5 min low price, high of the volumn * rand()
+	Any crossed interests will be traded
+	The order book is sorted accorinding Side, Symbol, Price and Quantity
+
+Clos Trade - either a buy or sell order is filled
+	If buy side or sell side book is not empty, a best buy or best sell is filled
+	If buy side or sell side is empty, the close trade for a buy or sell will be executed at closing price
+
+Execution logic
+	If market is closed, new orders will be rejected
+	
+	While market is open or in pending closing
+		Market orders - always filled from best price. 
+					If partially filled at best price, will sweep books until it is filled or counter side of the book is empty
+		Limit orders - will be filled at equal or better price
+	
+	Responses to new orders
+		Order Fill
+		Order Partial Fill
+		order Reject
